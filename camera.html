@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Front Camera Capture</h2>
+    <video id="video" width="300" autoplay></video>
+    <button id="capture">Capture Photo</button>
+    <canvas id="canvas" width="300"></canvas>
+
+    <script>
+        const video = document.getElementById("video");
+
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" }   // front camera
+        })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => alert("Camera permission denied!"));
+
+        document.getElementById("capture").onclick = () => {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Optional: send image to server
+            console.log(canvas.toDataURL("image/png"));
+        };
+    </script>
+</body>
+</html>
